@@ -3,7 +3,7 @@ import { User } from '../types/User';
 
 export const getAllUsers = async (): Promise<User[]> => {
   try {
-    const [rows] = await db.promise().query('SELECT * FROM Users');
+    const [rows] = await db.query('SELECT * FROM Users');
     return rows as User[];
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -13,7 +13,7 @@ export const getAllUsers = async (): Promise<User[]> => {
 
 export const updateUserPoints = async (id: number, pointsChange: number): Promise<boolean> => {
     try {
-      const [result] = await db.promise().query('UPDATE Users SET point = point + ? WHERE id = ?', [pointsChange, id]);
+      const [result] = await db.query('UPDATE Users SET point = point + ? WHERE id = ?', [pointsChange, id]);
       
       // `result` is of type `ResultSetHeader[]`, so access the first element for `affectedRows`
       const affectedRows = (result as any).affectedRows;  // Casting to access affectedRows

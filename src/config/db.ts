@@ -1,16 +1,13 @@
-import dotenv from 'dotenv'
-import mysql from 'mysql2'
+import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
 
-dotenv.config()
+dotenv.config();
 
-const db = mysql.createConnection(process.env.DB_URL ?? '')
+const db = mysql.createPool({
+  uri: process.env.DB_URL,  // Use `uri` for MySQL connection string
+  waitForConnections: true,
+  connectionLimit: 10, // Adjust as needed
+  queueLimit: 0
+});
 
-db.connect((err) => {
-  if (err) {
-    console.error('Database connection failed:', err.message)
-    return
-  }
-  console.log('Connected to MySQL database')
-})
-
-export default db
+export default db;
